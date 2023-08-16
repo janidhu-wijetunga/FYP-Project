@@ -4,7 +4,7 @@ from pytube import YouTube
 from googleapiclient.discovery import build
 
 # API key for youtube API v3.
-api_key = "AIzaSyAa-L-MgfgRKi9OfOzhF2Xs4NdMCKoBGak"
+api_key = ""
 
 video_link = "https://www.youtube.com/watch?v=LtFeTNduo18"
 
