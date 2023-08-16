@@ -2,9 +2,12 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api._errors import TranscriptsDisabled
 from pytube import YouTube
 from googleapiclient.discovery import build
+from dotenv import load_dotenv
+import os
 
 # API key for youtube API v3.
-api_key = ""
+load_dotenv()
+api_key = os.getenv("API_KEY")
 
 video_link = "https://www.youtube.com/watch?v=LtFeTNduo18"
 
