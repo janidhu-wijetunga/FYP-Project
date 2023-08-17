@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SafeTube</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>SafeTube</h1>
+        <form action="/" method="post">
+            <label for="input_link">Enter YouTube link:</label>
+            <input type="text" id="input_link" name="input_link" placeholder="https://www.youtube.com/watch?v=...">
+            <button type="submit">Check</button>
+        </form>
+        <div class="result">
+            <p class="result-title">Hate speech in captions:</p>
+            <p class="result-value">{{ py_variable }}</p>
+        </div>
+        <div class="result">
+            <p class="result-title">Hate speech in comments:</p>
+            <!-- You can add the result for comments here -->
+        </div>
+    </div>
+</body>
+</html>
