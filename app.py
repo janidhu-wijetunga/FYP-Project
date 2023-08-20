@@ -68,8 +68,18 @@ def index():
             print("No comments for this video")
             with open(comments_file_path, "w") as f:
                 f.write("No comments for this video.")
+        
+        # Read transcripts from the file and assign to a variable.
+        with open(transcript_file_path, "r") as file:
+            transcript_file_content = file.read()
+        print("TRANSCRIPT:", transcript_file_content)
 
-    return render_template('index.html', py_variable=video_id)
+        # Read comments from the file and assign to a variable.
+        with open(comments_file_path, "r", encoding='utf-8') as file:
+            comments_file_content = file.read()
+        print("COMMENTS:", comments_file_content)
+
+    return render_template('index.html', py_variable_captions=transcript_file_content, py_variable_comments=comments_file_content)
 
 if __name__ == '__main__':
     app.run(debug=True)
