@@ -6,12 +6,13 @@ body {
 }
 
 .container {
+    width: 50vw;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
 h1 {
@@ -34,7 +35,7 @@ input[type="text"] {
     width: 50%;
     padding: 10px;
     border: 2px solid #007bff;
-    border-radius: 4px;
+    border-radius: 10px;
     font-size: 16px;
     transition: border-color 0.3s;
 }
@@ -45,8 +46,8 @@ input[type="text"]:hover {
 
 button[type="submit"] {
     padding: 10px 20px;
-    background-color: #007bff;
-    color: #ffffff; /* Change text color to white */
+    background-image: linear-gradient(to right, #0070e7, #00a3da); /* Two-color gradient */
+    color: #ffffff; /* Text color is white */
     border: none;
     border-radius: 10px;
     font-size: 16px;
@@ -55,16 +56,16 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #003f83; /* Slightly darker color on hover */
+    background-image: linear-gradient(to right, #003f83, #0056b3); /* Darker gradient on hover */
     opacity: 0.9; /* Slightly reduce opacity on hover */
-    transform: scale(1.05); 
+    transform: scale(1.05);
 }
 
 .result {
     margin-top: 20px;
     padding: 10px;
     border: 2px solid #007bff;
-    border-radius: 4px;
+    border-radius: 10px;
     background-color: #f7f7f7;
 }
 
