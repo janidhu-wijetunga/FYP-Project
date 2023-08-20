@@ -75,7 +75,6 @@ def index():
         if os.path.exists(transcript_file_path):
             with open(transcript_file_path, "r") as file:
                 transcript_file_content = file.read()
-            print("TRANSCRIPT:", transcript_file_content)
         else:
             print("No existing file.")
 
@@ -83,7 +82,6 @@ def index():
         if os.path.exists(transcript_file_path):
             with open(comments_file_path, "r", encoding='utf-8') as file:
                 comments_file_content = file.read()
-            print("COMMENTS:", comments_file_content)
         else:
             print("No existing file.")
         
@@ -96,7 +94,7 @@ def delete_file():
     if os.path.exists(transcript_file_path):
         os.remove(transcript_file_path)
         os.remove(comments_file_path)
-        output = "Data deleted successfully."
+        output = "Data cleared successfully."
     else:
         output = "Data not found."
     
