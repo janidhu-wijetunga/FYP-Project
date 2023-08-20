@@ -10,9 +10,15 @@
         <h1>SafeTube</h1>
         <form action="/" method="post">
             <label for="input_link">Enter YouTube link:</label>
-            <input type="text" id="input_link" name="input_link" placeholder="https://www.youtube.com/watch?v=...">
+            <input type="text" id="input_link" name="input_link" placeholder="https://www.youtube.com/watch?v=..." required>
             <button type="submit">Check</button>
         </form>
+        <form action="/delete" method="post">
+            <button type="submit">Clear Data</button> {{ delete_message }}
+        </form>
+        <div class="result">
+            <p class="result-title">YouTube Link: {{ link }}</p>
+        </div>
         <div class="result">
             <p class="result-title">Hate speech in captions:</p>
             <p class="result-value">{{ py_variable_captions }}</p>

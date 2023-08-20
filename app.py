@@ -10,6 +10,9 @@ from flask import Flask, render_template, request
 load_dotenv()
 api_key = os.getenv("API_KEY")
 
+comments_file_path = "comments.txt"
+transcript_file_path = "transcript.txt"
+
 # Define flask back end.
 app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
@@ -17,13 +20,12 @@ def index():
 
     video_link = ""
     video_id = ""
+    transcript_file_content = ""
+    comments_file_content = ""
 
     if request.method == 'POST':
 
         video_link = request.form.get('input_link')
-
-        comments_file_path = "comments.txt"
-        transcript_file_path = "transcript.txt"
 
         # Split the video link to get the video id.
         video_id = video_link.split("v=")[1]
@@ -70,16 +72,36 @@ def index():
                 f.write("No comments for this video.")
         
         # Read transcripts from the file and assign to a variable.
-        with open(transcript_file_path, "r") as file:
-            transcript_file_content = file.read()
-        print("TRANSCRIPT:", transcript_file_content)
+        if os.path.exists(transcript_file_path):
+            with open(transcript_file_path, "r") as file:
+                transcript_file_content = file.read()
+            print("TRANSCRIPT:", transcript_file_content)
+        else:
+            print("No existing file.")
 
         # Read comments from the file and assign to a variable.
-        with open(comments_file_path, "r", encoding='utf-8') as file:
-            comments_file_content = file.read()
-        print("COMMENTS:", comments_file_content)
-
-    return render_template('index.html', py_variable_captions=transcript_file_content, py_variable_comments=comments_file_content)
+        if os.path.exists(transcript_file_path):
+            with open(comments_file_path, "r", encoding='utf-8') as file:
+                comments_file_content = file.read()
+            print("COMMENTS:", comments_file_content)
+        else:
+            print("No existing file.")
+        
+    return render_template('index.html', py_variable_captions=transcript_file_content, py_variable_comments=comments_file_content, link = video_link)
+    
+# To clear existing data.
+@app.route('/delete', methods=['POST'])
+def delete_file():
+    output = ""
+    if os.path.exists(transcript_file_path):
+        os.remove(transcript_file_path)
+        os.remove(comments_file_path)
+        output = "Data deleted successfully."
+    else:
+        output = "Data not found."
+    
+    clear_value = ""
+    return render_template('index.html', delete_message = output, py_variable_captions = clear_value, py_variable_comments = clear_value, link = clear_value)
 
 if __name__ == '__main__':
     app.run(debug=True)
