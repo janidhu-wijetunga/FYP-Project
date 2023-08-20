@@ -31,33 +31,39 @@ label {
 }
 
 input[type="text"] {
-    width: 100%;
+    width: 50%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 2px solid #007bff;
     border-radius: 4px;
     font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:hover {
+    border-color: #003f83; /* Slightly darker color on hover */
 }
 
 button[type="submit"] {
     padding: 10px 20px;
     background-color: #007bff;
-    color: #000000;
+    color: #ffffff; /* Change text color to white */
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
-    transition: opacity 1s;
+    transition: background-color 0.3s, opacity 0.5s, transform 0.2s;
 }
 
 button[type="submit"]:hover {
-    opacity: 50;
-    background-color: #ffffff;
+    background-color: #003f83; /* Slightly darker color on hover */
+    opacity: 0.9; /* Slightly reduce opacity on hover */
+    transform: scale(1.05); 
 }
 
 .result {
     margin-top: 20px;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 2px solid #007bff;
     border-radius: 4px;
     background-color: #f7f7f7;
 }
@@ -79,7 +85,7 @@ button[type="submit"]:hover {
     transform: translate(-50%, -50%);
     background-color: #007bff;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 999;
 }
