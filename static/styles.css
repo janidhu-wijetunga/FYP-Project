@@ -14,7 +14,7 @@ body {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #919191;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 }
@@ -23,6 +23,7 @@ h1 {
     font-size: 32px;
     margin-bottom: 20px;
     text-align: center;
+    color: #E84C3D;
 }
 
 form {
@@ -38,19 +39,19 @@ label {
 input[type="text"] {
     width: 50%;
     padding: 10px;
-    border: 2px solid #007bff;
+    border: 2px solid #E84C3D;
     border-radius: 10px;
     font-size: 16px;
     transition: border-color 0.3s;
 }
 
 input[type="text"]:hover {
-    border-color: #003f83; /* Slightly darker color on hover */
+    border-color: #000000; /* Slightly darker color on hover */
 }
 
 button[type="submit"] {
     padding: 10px 20px;
-    background-image: linear-gradient(to right, #0070e7, #00a3da); /* Two-color gradient */
+    background-image: linear-gradient(to right, #E84C3D, #999999); /* Two-color gradient */
     color: #ffffff; /* Text color is white */
     border: none;
     border-radius: 10px;
@@ -60,7 +61,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-image: linear-gradient(to right, #003f83, #0056b3); /* Darker gradient on hover */
+    background-image: linear-gradient(to right, #df2020, #414141); /* Darker gradient on hover */
     opacity: 0.9; /* Slightly reduce opacity on hover */
     transform: scale(1.05);
 }
@@ -68,7 +69,7 @@ button[type="submit"]:hover {
 .result {
     margin-top: 20px;
     padding: 10px;
-    border: 2px solid #007bff;
+    border: 2px solid #E84C3D;
     border-radius: 10px;
     background-color: #f7f7f7;
 }
@@ -88,9 +89,15 @@ button[type="submit"]:hover {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #007bff;
+    background-color: #E84C3D;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 999;
+}
+
+.description {
+    background-color: #E84C3D;
+    border-radius: 10px;
+    padding: 10px;
 }
