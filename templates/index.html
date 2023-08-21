@@ -17,7 +17,7 @@
         <p><b><a href="https://www.youtube.com/howyoutubeworks/policies/community-guidelines/">Community Guidelines</a></b></p>
         <form action="/" method="post">
             <label for="input_link">Enter YouTube link:</label>
-            <input type="text" id="input_link" name="input_link" placeholder="https://www.youtube.com/watch?v=..." required>
+            <input type="text" id="input_link" name="input_link" placeholder="https://www.youtube.com/watch?v=..." pattern="^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+" required>
             <br><br>
             <button type="submit" id="submitBtn">Check</button>
         </form>
