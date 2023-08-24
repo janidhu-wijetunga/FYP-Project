@@ -85,7 +85,7 @@ def index():
         else:
             print("No existing file.")
         
-    return render_template('index.html', py_variable_captions=transcript_file_content, py_variable_comments=comments_file_content, link = video_link)
+    return render_template('index.html', py_variable_captions=transcript_file_content, py_variable_comments=comments_file_content, link = video_link, video_id = video_id)
     
 # To clear existing data.
 @app.route('/delete', methods=['POST'])
