@@ -29,6 +29,9 @@ def index():
     video_id = ""
     transcript_file_content = ""
     comments_file_content = ""
+    video_title = ""
+    video_description = ""
+    thumbnail_text = ""
 
     if request.method == 'POST':
 
@@ -167,7 +170,7 @@ def index():
             print("Error:", e)
 
         
-    return render_template('index.html', py_variable_captions=transcript_file_content, py_variable_comments=comments_file_content, link = video_link, video_id = video_id)
+    return render_template('index.html', py_variable_captions=transcript_file_content, py_variable_comments=comments_file_content, link = video_link, video_id = video_id, py_variable_title = video_title, py_variable_description = video_description, py_variable_thumbnail = thumbnail_text)
     
 # To clear existing data.
 @app.route('/delete', methods=['POST'])
@@ -185,7 +188,7 @@ def delete_file():
         output = "Data not found."
     
     clear_value = ""
-    return render_template('index.html', delete_message = output, py_variable_captions = clear_value, py_variable_comments = clear_value, link = clear_value)
+    return render_template('index.html', delete_message = output, py_variable_captions = clear_value, py_variable_comments = clear_value, link = clear_value, py_variable_title = clear_value, py_variable_description = clear_value, py_variable_thumbnail = clear_value)
 
 if __name__ == '__main__':
     app.run(debug=True)

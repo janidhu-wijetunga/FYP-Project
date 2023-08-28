@@ -31,12 +31,24 @@
             <p class="result-title">YouTube Link: {{ link }}</p>
         </div>
         <div class="result">
+            <p class="result-title">Hate speech in title:</p>
+            <p class="result-value">{{ py_variable_title }}</p>
+        </div>
+        <div class="result">
+            <p class="result-title">Hate speech in description:</p>
+            <p class="result-value">{{ py_variable_description }}</p>
+        </div>
+        <div class="result">
             <p class="result-title">Hate speech in captions:</p>
             <p class="result-value">{{ py_variable_captions }}</p>
         </div>
         <div class="result">
             <p class="result-title">Hate speech in comments:</p>
             <p class="result-value">{{ py_variable_comments }}</p>
+        </div>
+        <div class="result">
+            <p class="result-title">Hate speech in thumbnail:</p>
+            <p class="result-value">{{ py_variable_thumbnail }}</p>
         </div>
     </div>
     <script src="static/scripts.js"></script>
