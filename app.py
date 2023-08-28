@@ -1,17 +1,22 @@
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api._errors import TranscriptsDisabled
 from pytube import YouTube
+import requests
 from googleapiclient.discovery import build
 from dotenv import load_dotenv
 import os
 from flask import Flask, render_template, request
+import pytesseract
+from PIL import Image
 
 # API key for youtube API v3.
 load_dotenv()
 api_key = os.getenv("API_KEY")
 
-comments_file_path = "comments.txt"
-transcript_file_path = "transcript.txt"
+comments_file_path = "FYP-Project/comments.txt"
+transcript_file_path = "FYP-Project/transcript.txt"
+thumbnail_file_path = "FYP-Project/thumbnail.jpg"
+thumbnail_text_file_path = "FYP-Project/thumbnailText.txt"
 
 # Define flask back end.
 app = Flask(__name__)
@@ -46,6 +51,22 @@ def index():
             print("Transcripts are disabled for this video.")
             with open(transcript_file_path, "w") as f:
                 f.write("Transcripts are disabled for this video.")
+
+
+        # Extract YouTube thumbnail image.
+        try:
+            yt = YouTube(video_link)
+            thumbnail_url = yt.thumbnail_url
+
+            response = requests.get(thumbnail_url)
+            if response.status_code == 200:
+                with open(thumbnail_file_path, 'wb') as file:
+                    file.write(response.content)
+                print("Thumbnail saved")
+            else:
+                print("Failed to download thumbnail.")
+        except Exception as e:
+            print("Error:", e)
 
 
         # Create a YouTube Data API client.
@@ -85,6 +106,20 @@ def index():
         else:
             print("No existing file.")
         
+
+        # Extract text from YouTube video thumbnail.
+        try:
+            image = Image.open(thumbnail_file_path)
+            resized_image = image.resize((800, 600))
+            thumbnail_text = pytesseract.image_to_string(resized_image, lang='eng', config='--psm 6')
+            with open(thumbnail_text_file_path, "w") as f:
+                f.write(thumbnail_text)
+                print("Thumbnail text saved.")
+        
+        except Exception as e:
+            print("Error:", e)
+
+        
     return render_template('index.html', py_variable_captions=transcript_file_content, py_variable_comments=comments_file_content, link = video_link, video_id = video_id)
     
 # To clear existing data.
@@ -94,6 +129,8 @@ def delete_file():
     if os.path.exists(transcript_file_path):
         os.remove(transcript_file_path)
         os.remove(comments_file_path)
+        os.remove(thumbnail_file_path)
+        os.remove(thumbnail_text_file_path)
         output = "Data cleared successfully."
     else:
         output = "Data not found."
