@@ -17,6 +17,8 @@ comments_file_path = "FYP-Project/comments.txt"
 transcript_file_path = "FYP-Project/transcript.txt"
 thumbnail_file_path = "FYP-Project/thumbnail.jpg"
 thumbnail_text_file_path = "FYP-Project/thumbnailText.txt"
+description_file_path = "FYP-Project/description.txt"
+title_file_path = "FYP-Project/title.txt"
 
 # Define flask back end.
 app = Flask(__name__)
@@ -62,9 +64,54 @@ def index():
             if response.status_code == 200:
                 with open(thumbnail_file_path, 'wb') as file:
                     file.write(response.content)
-                print("Thumbnail saved")
+                print("Thumbnail saved.")
             else:
                 print("Failed to download thumbnail.")
+        except Exception as e:
+            print("Error:", e)
+
+
+        # Extract YouTube video description.
+        try:
+            youtube = build('youtube', 'v3', developerKey=api_key)
+            response = youtube.videos().list(
+                part="snippet",
+                id=video_id
+            ).execute()
+
+            if "items" in response and len(response["items"]) > 0:
+                video_description = response["items"][0]["snippet"]["description"]
+                with open(description_file_path, 'w', encoding='utf-8') as file:
+                    file.write(video_description)
+                print("Description Saved.")
+            else:
+                print("Video description not available.")
+                with open(description_file_path, 'w', encoding='utf-8') as file:
+                    file.write("Video description not available.")
+
+        except Exception as e:
+            print("Error:", e)
+
+
+        # Extract YouTube video title.
+        try:
+            youtube = build("youtube", "v3", developerKey=api_key)
+        
+            response = youtube.videos().list(
+                part="snippet",
+                id=video_id
+            ).execute()
+
+            if "items" in response and len(response["items"]) > 0:
+                video_title = response["items"][0]["snippet"]["title"]
+                print("Video title saved.")
+                with open(title_file_path, 'w', encoding='utf-8') as file:
+                    file.write(video_title)
+            else:
+                print("Video title not available.")
+                with open(description_file_path, 'w', encoding='utf-8') as file:
+                    file.write("Video title not available.")
+            
         except Exception as e:
             print("Error:", e)
 
@@ -131,6 +178,8 @@ def delete_file():
         os.remove(comments_file_path)
         os.remove(thumbnail_file_path)
         os.remove(thumbnail_text_file_path)
+        os.remove(description_file_path)
+        os.remove(title_file_path)
         output = "Data cleared successfully."
     else:
         output = "Data not found."
