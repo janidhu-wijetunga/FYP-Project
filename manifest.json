@@ -1,0 +1,18 @@
+{
+    "manifest_version": 3,
+    "name": "SpeechGuard",
+    "version": "1.0",
+    "description": "Hate Speech Detection in YouTube Videos.",
+    "action": {
+        "default_popup": "templates/popup.html",
+        "default_icon": {
+          "128": "static/images/security.png"
+        }
+    },
+    "icons": {
+      "128": "static/images/security.png"
+    },
+    "permissions": [
+      "activeTab"
+    ]
+}

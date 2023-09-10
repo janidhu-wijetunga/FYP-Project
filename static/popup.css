@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+    background-image: url('../static/images/popup.jpg'); /* Update path to your image file */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    width: 300px; /* Set the width of the popup */
+    height: 450px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #E84C3D;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+button{
+    padding: 10px 20px;
+    background-image: linear-gradient(to right, #E84C3D, #999999); /* Two-color gradient */
+    color: #ffffff; /* Text color is white */
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, opacity 0.5s, transform 0.2s;
+}
+
+button:hover {
+    background-image: linear-gradient(to right, #df2020, #414141); /* Darker gradient on hover */
+    opacity: 0.9; /* Slightly reduce opacity on hover */
+    transform: scale(1.05);
+}
