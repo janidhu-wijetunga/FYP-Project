@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 10px;
     background-color: #f7f7f7;
     background-image: url('../static/images/popup.jpg'); /* Update path to your image file */
     background-size: cover;
@@ -10,6 +10,7 @@ body {
     width: 300px; /* Set the width of the popup */
     height: 300px;
     text-align: center;
+    border: 2px solid #E84C3D;
 }
 
 h1 {
