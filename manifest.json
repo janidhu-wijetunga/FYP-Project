@@ -6,11 +6,11 @@
     "action": {
         "default_popup": "templates/popup.html",
         "default_icon": {
-          "128": "static/images/security.png"
+          "128": "static/images/extensionLogo.png"
         }
     },
     "icons": {
-      "128": "static/images/security.png"
+      "128": "static/images/extensionLogo.png"
     },
     "permissions": [
       "activeTab"

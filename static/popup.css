@@ -3,27 +3,27 @@ body {
     margin: 0;
     padding: 10px;
     background-color: #f7f7f7;
-    background-image: url('../static/images/popup.jpg'); /* Update path to your image file */
+    background-image: url('../static/images/popup2.jpg'); /* Update path to your image file */
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     width: 300px; /* Set the width of the popup */
     height: 300px;
     text-align: center;
-    border: 2px solid #E84C3D;
+    border: 2px solid #244fdd;
 }
 
 h1 {
     font-size: 32px;
     margin-bottom: 20px;
     text-align: center;
-    color: #E84C3D;
+    color: #244fdd;
     text-shadow: 2px 2px 4px rgba(1, 1, 1, 1);
 }
 
 button{
     padding: 10px 20px;
-    background-image: linear-gradient(to right, #E84C3D, #999999); /* Two-color gradient */
+    background-image: linear-gradient(to right, #244fdd, #999999); /* Two-color gradient */
     color: #ffffff; /* Text color is white */
     border: none;
     border-radius: 10px;
@@ -33,7 +33,7 @@ button{
 }
 
 button:hover {
-    background-image: linear-gradient(to right, #df2020, #414141); /* Darker gradient on hover */
+    background-image: linear-gradient(to right, #0631f3, #414141); /* Darker gradient on hover */
     opacity: 0.9; /* Slightly reduce opacity on hover */
     transform: scale(1.05);
 }

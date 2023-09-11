@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f7f7f7;
-    background-image: url('../static/images/background.jpg'); /* Update path to your image file */
+    background-image: url('../static/images/background2.jpg'); /* Update path to your image file */
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -14,8 +14,7 @@ body {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color: rgba(145, 145, 145, 0.5);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(15, 188, 211, 0.1);
     border-radius: 10px;
 }
 
@@ -23,7 +22,7 @@ h1 {
     font-size: 50px;
     margin-bottom: 20px;
     text-align: center;
-    color: #E84C3D;
+    color: #244fdd;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -40,7 +39,7 @@ label {
 input[type="text"] {
     width: 50%;
     padding: 10px;
-    border: 2px solid #E84C3D;
+    border: 2px solid #244fdd;
     border-radius: 10px;
     font-size: 16px;
     transition: border-color 0.3s;
@@ -52,7 +51,7 @@ input[type="text"]:hover {
 
 button[type="submit"] {
     padding: 10px 20px;
-    background-image: linear-gradient(to right, #E84C3D, #999999); /* Two-color gradient */
+    background-image: linear-gradient(to right, #244fdd, #999999); /* Two-color gradient */
     color: #ffffff; /* Text color is white */
     border: none;
     border-radius: 10px;
@@ -62,7 +61,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-image: linear-gradient(to right, #df2020, #414141); /* Darker gradient on hover */
+    background-image: linear-gradient(to right, #0631f3, #414141); /* Darker gradient on hover */
     opacity: 0.9; /* Slightly reduce opacity on hover */
     transform: scale(1.05);
 }
@@ -70,9 +69,8 @@ button[type="submit"]:hover {
 .result {
     margin-top: 20px;
     padding: 10px;
-    border: 2px solid #E84C3D;
+    border: 2px solid #244fdd;
     border-radius: 10px;
-    background-color: #f7f7f7;
 }
 
 .result-title {
@@ -90,7 +88,7 @@ button[type="submit"]:hover {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #E84C3D;
+    background-color: #244fdd;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -98,12 +96,12 @@ button[type="submit"]:hover {
 }
 
 .description {
-    background-color: #E84C3D;
+    background-color: #244fdd;
     border-radius: 10px;
     padding: 10px;
 }
 
 iframe {
-    border: 2px solid #E84C3D;
+    border: 2px solid #244fdd;
     border-radius: 10px;
 }
