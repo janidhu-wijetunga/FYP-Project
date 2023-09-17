@@ -21,7 +21,7 @@
 
     "background": [
       {
-        "service_worker": "static/background.js"
+        "scripts": "static/background.js"
       }
     ],
 

@@ -24,7 +24,7 @@ title_file_path = "FYP-Project/title.txt"
 # Define flask back end.
 app = Flask(__name__)
 CORS(app)
-@app.route('/receive_url', methods=['GET', 'POST'])
+@app.route('/receive_url', methods=['POST'])
 def index():
 
     video_link = ""
