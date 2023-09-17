@@ -9,10 +9,26 @@
           "128": "static/images/extensionLogo.png"
         }
     },
+
     "icons": {
       "128": "static/images/extensionLogo.png"
     },
+
     "permissions": [
-      "activeTab"
+      "activeTab",
+      "tabs"
+    ],
+
+    "background": [
+      {
+        "service_worker": "static/background.js"
+      }
+    ],
+
+    "content_scripts": [
+      {
+        "matches": ["*://www.youtube.com/*"],
+        "js": ["static/content.js"]
+      }
     ]
 }

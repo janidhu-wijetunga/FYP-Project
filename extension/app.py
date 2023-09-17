@@ -8,6 +8,7 @@ import os
 from flask import Flask, render_template, request
 import pytesseract
 from PIL import Image
+from flask_cors import CORS
 
 # API key for youtube API v3.
 load_dotenv()
@@ -22,7 +23,8 @@ title_file_path = "FYP-Project/title.txt"
 
 # Define flask back end.
 app = Flask(__name__)
-@app.route('/', methods=['GET', 'POST'])
+CORS(app)
+@app.route('/receive_url', methods=['GET', 'POST'])
 def index():
 
     video_link = ""
@@ -33,9 +35,12 @@ def index():
     video_description = ""
     thumbnail_text = ""
 
+    print(request.get_json().get('url'))
+
     if request.method == 'POST':
 
-        video_link = request.form.get('input_link')
+        data = request.get_json()
+        video_link = data.get('url')
 
         # Split the video link to get the video id.
         video_id = video_link.split("v=")[1]
@@ -191,4 +196,4 @@ def delete_file():
     return render_template('index.html', delete_message = output, py_variable_captions = clear_value, py_variable_comments = clear_value, link = clear_value, py_variable_title = clear_value, py_variable_description = clear_value, py_variable_thumbnail = clear_value)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8080)
