@@ -14,12 +14,12 @@ from flask_cors import CORS
 load_dotenv()
 api_key = os.getenv("API_KEY")
 
-comments_file_path = "FYP-Project/comments.txt"
-transcript_file_path = "FYP-Project/transcript.txt"
-thumbnail_file_path = "FYP-Project/thumbnail.jpg"
-thumbnail_text_file_path = "FYP-Project/thumbnailText.txt"
-description_file_path = "FYP-Project/description.txt"
-title_file_path = "FYP-Project/title.txt"
+comments_file_path = "extension/comments.txt"
+transcript_file_path = "extension/transcript.txt"
+thumbnail_file_path = "extension/thumbnail.jpg"
+thumbnail_text_file_path = "extension/thumbnailText.txt"
+description_file_path = "extension/description.txt"
+title_file_path = "extension/title.txt"
 
 # Define flask back end.
 app = Flask(__name__)
@@ -34,8 +34,6 @@ def index():
     video_title = ""
     video_description = ""
     thumbnail_text = ""
-
-    print(request.get_json().get('url'))
 
     if request.method == 'POST':
 

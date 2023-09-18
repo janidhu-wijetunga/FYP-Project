@@ -16,14 +16,14 @@
 
     "permissions": [
       "activeTab",
-      "tabs"
+      "tabs",
+      "scripting"
     ],
 
-    "background": [
+    "background": 
       {
-        "scripts": "static/background.js"
-      }
-    ],
+        "service_worker": "static/background.js"
+      },
 
     "content_scripts": [
       {
