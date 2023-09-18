@@ -173,7 +173,7 @@ def index():
             print("Error:", e)
 
         
-    return render_template('index.html', py_variable_captions=transcript_file_content, py_variable_comments=comments_file_content, link = video_link, video_id = video_id, py_variable_title = video_title, py_variable_description = video_description, py_variable_thumbnail = thumbnail_text)
+    return render_template('popup.html')
     
 # To clear existing data.
 @app.route('/delete', methods=['POST'])

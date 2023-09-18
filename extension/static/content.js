@@ -1,8 +1,15 @@
-const currentUrl = window.location.href;
-const youtubeUrlPattern = /^https:\/\/www\.youtube\.com\/watch\?v=/;
+let previousUrl = window.location.href;
 
-if (currentUrl.match(youtubeUrlPattern)) {
+function checkUrl() {
+    const currentUrl = window.location.href;
+    const youtubeUrlPattern = /^https:\/\/www\.youtube\.com\/watch\?v=/;
 
-    chrome.runtime.sendMessage({youtubeUrl: currentUrl})
-    console.log("youtube url:", currentUrl);
+    if (currentUrl !== previousUrl && currentUrl.match(youtubeUrlPattern)) {
+        chrome.runtime.sendMessage({ youtubeUrl: currentUrl });
+        console.log("youtube url:", currentUrl);
+        previousUrl = currentUrl;
+    }
 }
+
+checkUrl();
+setInterval(checkUrl, 1000);
