@@ -13,12 +13,12 @@ from PIL import Image
 load_dotenv()
 api_key = os.getenv("API_KEY")
 
-comments_file_path = "FYP-Project/comments.txt"
-transcript_file_path = "FYP-Project/transcript.txt"
-thumbnail_file_path = "FYP-Project/thumbnail.jpg"
-thumbnail_text_file_path = "FYP-Project/thumbnailText.txt"
-description_file_path = "FYP-Project/description.txt"
-title_file_path = "FYP-Project/title.txt"
+comments_file_path = "website/comments.txt"
+transcript_file_path = "website/transcript.txt"
+thumbnail_file_path = "website/thumbnail.jpg"
+thumbnail_text_file_path = "website/thumbnailText.txt"
+description_file_path = "website/description.txt"
+title_file_path = "website/title.txt"
 
 # Define flask back end.
 app = Flask(__name__)
