@@ -5,7 +5,7 @@ import requests
 from googleapiclient.discovery import build
 from dotenv import load_dotenv
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import pytesseract
 from PIL import Image
 from flask_cors import CORS
@@ -14,12 +14,12 @@ from flask_cors import CORS
 load_dotenv()
 api_key = os.getenv("API_KEY")
 
-comments_file_path = "extension/comments.txt"
-transcript_file_path = "extension/transcript.txt"
-thumbnail_file_path = "extension/thumbnail.jpg"
-thumbnail_text_file_path = "extension/thumbnailText.txt"
-description_file_path = "extension/description.txt"
-title_file_path = "extension/title.txt"
+comments_file_path = "FYP-Project/extension/comments.txt"
+transcript_file_path = "FYP-Project/extension/transcript.txt"
+thumbnail_file_path = "FYP-Project/extension/thumbnail.jpg"
+thumbnail_text_file_path = "FYP-Project/extension/thumbnailText.txt"
+description_file_path = "FYP-Project/extension/description.txt"
+title_file_path = "FYP-Project/extension/title.txt"
 
 # Define flask back end.
 app = Flask(__name__)
@@ -173,7 +173,7 @@ def index():
             print("Error:", e)
 
         
-    return render_template('popup.html')
+    return jsonify(video_title)
     
 # To clear existing data.
 @app.route('/delete', methods=['POST'])
