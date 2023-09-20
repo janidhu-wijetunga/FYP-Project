@@ -172,8 +172,7 @@ def index():
         except Exception as e:
             print("Error:", e)
 
-        
-    return jsonify(video_title)
+    return jsonify({"value": video_title})
     
 # To clear existing data.
 @app.route('/delete', methods=['POST'])

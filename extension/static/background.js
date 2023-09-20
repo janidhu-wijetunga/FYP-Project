@@ -13,10 +13,10 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             }
         }).then(response => response.json())
         .then(data => {
-            console.log(data);
-            chrome.runtime.sendMessage({ respond: data });
+            console.log(data.value);
+            const newVal = data.value;
+            chrome.runtime.sendMessage({ respond: newVal });
             
         })
     }
-    //return true;
 });
