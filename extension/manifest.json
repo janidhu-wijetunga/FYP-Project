@@ -17,7 +17,8 @@
     "permissions": [
       "activeTab",
       "tabs",
-      "scripting"
+      "scripting",
+      "notifications"
     ],
 
     "background": 

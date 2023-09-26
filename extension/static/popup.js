@@ -5,10 +5,3 @@ document.addEventListener('DOMContentLoaded', function () {
         chrome.tabs.create({ url: websiteURL });
     });
 });
-
-
-document.getElementById("flaskValue").textContent = "Loading...";
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-
-    document.getElementById("flaskValue").textContent = message.respond;
-})

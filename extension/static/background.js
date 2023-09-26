@@ -15,8 +15,25 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         .then(data => {
             console.log(data.value);
             const newVal = data.value;
-            chrome.runtime.sendMessage({ respond: newVal });
-            
+
+            notifications();
         })
     }
 });
+
+function notifications() {
+                
+    chrome.notifications.create(
+        {
+            title: "SpeechGuard",
+            message: "Hate Speech Detected!",
+            iconUrl: "../static/images/extensionLogo.png",
+            type: "basic",
+        }
+    );
+
+    chrome.notifications.onClicked.addListener(function () {
+        const websiteURL = "http://127.0.0.1:5000/";
+        chrome.tabs.create({ url: websiteURL });
+    })
+}
