@@ -8,6 +8,8 @@ import os
 from flask import Flask, render_template, request
 import pytesseract
 from PIL import Image
+import tensorflow
+import numpy as np
 
 # API key for youtube API v3.
 load_dotenv()
@@ -19,6 +21,20 @@ thumbnail_file_path = "FYP-Project/website/thumbnail.jpg"
 thumbnail_text_file_path = "FYP-Project/website/thumbnailText.txt"
 description_file_path = "FYP-Project/website/description.txt"
 title_file_path = "FYP-Project/website/title.txt"
+
+def prediction(text):
+    trained_model = tensorflow.keras.models.load_model('FYP-Project/website/models/bilstm')
+    predictions_trained = trained_model.predict(np.array([text]))
+    print(*predictions_trained[0])
+
+    if predictions_trained[0] > 3:
+        print('Hate')
+        prediction_value = "Hate"
+    else:
+        print('Not Hate')
+        prediction_value = "Not Hate"
+
+    return prediction_value
 
 # Define flask back end.
 app = Flask(__name__)
@@ -32,6 +48,12 @@ def index():
     video_title = ""
     video_description = ""
     thumbnail_text = ""
+
+    transcript_prediction = ""
+    comments_prediction = ""
+    title_prediction = ""
+    description_prediction = ""
+    thumbnail_prediction = ""
 
     if request.method == 'POST':
 
@@ -88,6 +110,8 @@ def index():
                 with open(description_file_path, 'w', encoding='utf-8') as file:
                     file.write(video_description)
                 print("Description Saved.")
+                description_prediction = prediction(video_description)
+                print("Hate Speech in Description:", description_prediction)
             else:
                 print("Video description not available.")
                 with open(description_file_path, 'w', encoding='utf-8') as file:
@@ -111,6 +135,8 @@ def index():
                 print("Video title saved.")
                 with open(title_file_path, 'w', encoding='utf-8') as file:
                     file.write(video_title)
+                title_prediction = prediction(video_title)
+                print("Hate Speech in Title:", title_prediction)
             else:
                 print("Video title not available.")
                 with open(description_file_path, 'w', encoding='utf-8') as file:
@@ -147,6 +173,8 @@ def index():
         if os.path.exists(transcript_file_path):
             with open(transcript_file_path, "r") as file:
                 transcript_file_content = file.read()
+                transcript_prediction = prediction(transcript_file_content)
+                print("Hate Speech in Transcript:", transcript_prediction)
         else:
             print("No existing file.")
 
@@ -154,6 +182,8 @@ def index():
         if os.path.exists(transcript_file_path):
             with open(comments_file_path, "r", encoding='utf-8') as file:
                 comments_file_content = file.read()
+                comments_prediction = prediction(comments_file_content)
+                print("Hate Speech in Comments:", comments_prediction)
         else:
             print("No existing file.")
         
@@ -166,12 +196,14 @@ def index():
             with open(thumbnail_text_file_path, "w") as f:
                 f.write(thumbnail_text)
                 print("Thumbnail text saved.")
+                thumbnail_prediction = prediction(thumbnail_text)
+                print("Hate Speech in Thumbnail:", thumbnail_prediction)
         
         except Exception as e:
             print("Error:", e)
 
         
-    return render_template('index.html', py_variable_captions=transcript_file_content, py_variable_comments=comments_file_content, link = video_link, video_id = video_id, py_variable_title = video_title, py_variable_description = video_description, py_variable_thumbnail = thumbnail_text)
+    return render_template('index.html', py_variable_captions=transcript_prediction, py_variable_comments=comments_prediction, link = video_link, video_id = video_id, py_variable_title = title_prediction, py_variable_description = description_prediction, py_variable_thumbnail = thumbnail_prediction)
     
 # To clear existing data.
 @app.route('/delete', methods=['POST'])
