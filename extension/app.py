@@ -41,7 +41,8 @@ def index():
         video_link = data.get('url')
 
         # Split the video link to get the video id.
-        video_id = video_link.split("v=")[1]
+        video_id_part = video_link.split('&')[0]
+        video_id = video_id_part.split("v=")[1]
 
         # Extract the video captions.
         try:

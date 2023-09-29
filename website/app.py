@@ -13,12 +13,12 @@ from PIL import Image
 load_dotenv()
 api_key = os.getenv("API_KEY")
 
-comments_file_path = "website/comments.txt"
-transcript_file_path = "website/transcript.txt"
-thumbnail_file_path = "website/thumbnail.jpg"
-thumbnail_text_file_path = "website/thumbnailText.txt"
-description_file_path = "website/description.txt"
-title_file_path = "website/title.txt"
+comments_file_path = "FYP-Project/website/comments.txt"
+transcript_file_path = "FYP-Project/website/transcript.txt"
+thumbnail_file_path = "FYP-Project/website/thumbnail.jpg"
+thumbnail_text_file_path = "FYP-Project/website/thumbnailText.txt"
+description_file_path = "FYP-Project/website/description.txt"
+title_file_path = "FYP-Project/website/title.txt"
 
 # Define flask back end.
 app = Flask(__name__)
@@ -38,7 +38,8 @@ def index():
         video_link = request.form.get('input_link')
 
         # Split the video link to get the video id.
-        video_id = video_link.split("v=")[1]
+        video_id_part = video_link.split('&')[0]
+        video_id = video_id_part.split("v=")[1]
 
         # Extract the video captions.
         try:
