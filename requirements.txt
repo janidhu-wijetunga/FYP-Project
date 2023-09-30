@@ -5,3 +5,5 @@ python-dotenv
 Flask
 pytesseract
 flask-cors
+tensorflow
+numpy

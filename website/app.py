@@ -21,13 +21,15 @@ thumbnail_file_path = "FYP-Project/website/thumbnail.jpg"
 thumbnail_text_file_path = "FYP-Project/website/thumbnailText.txt"
 description_file_path = "FYP-Project/website/description.txt"
 title_file_path = "FYP-Project/website/title.txt"
+hate_links_file_path = "FYP-Project/website/hateLinks.txt"
+bilstm_model_path = "FYP-Project/website/models/bilstm"
 
 def prediction(text):
-    trained_model = tensorflow.keras.models.load_model('FYP-Project/website/models/bilstm')
+    trained_model = tensorflow.keras.models.load_model(bilstm_model_path)
     predictions_trained = trained_model.predict(np.array([text]))
     print(*predictions_trained[0])
 
-    if predictions_trained[0] > 3:
+    if predictions_trained[0] > 0:
         print('Hate')
         prediction_value = "Hate"
     else:
@@ -201,6 +203,10 @@ def index():
         
         except Exception as e:
             print("Error:", e)
+
+        if (transcript_prediction == "Hate" or comments_prediction == "Hate" or title_prediction == "Hate" or description_prediction == "Hate" or thumbnail_prediction == "Hate"):
+            with open(hate_links_file_path, "a") as file:
+                file.write(video_link + "\n")
 
         
     return render_template('index.html', py_variable_captions=transcript_prediction, py_variable_comments=comments_prediction, link = video_link, video_id = video_id, py_variable_title = title_prediction, py_variable_description = description_prediction, py_variable_thumbnail = thumbnail_prediction)
