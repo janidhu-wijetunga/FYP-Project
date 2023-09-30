@@ -16,7 +16,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             console.log(data.value);
             const newVal = data.value;
 
-            notifications();
+            if (newVal == "Hate") {
+                notifications();
+            }     
         })
     }
 });
