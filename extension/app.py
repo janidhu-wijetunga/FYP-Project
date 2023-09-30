@@ -17,13 +17,13 @@ load_dotenv()
 api_key = os.getenv("API_KEY")
 
 # Paths to all files required.
-comments_file_path = "FYP-Project/extension/comments.txt"
-transcript_file_path = "FYP-Project/extension/transcript.txt"
-thumbnail_file_path = "FYP-Project/extension/thumbnail.jpg"
-thumbnail_text_file_path = "FYP-Project/extension/thumbnailText.txt"
-description_file_path = "FYP-Project/extension/description.txt"
-title_file_path = "FYP-Project/extension/title.txt"
-hate_links_file_path = "FYP-Project/extension/hateLinks.txt"
+comments_file_path = "FYP-Project/extension/data/comments.txt"
+transcript_file_path = "FYP-Project/extension/data/transcript.txt"
+thumbnail_file_path = "FYP-Project/extension/data/thumbnail.jpg"
+thumbnail_text_file_path = "FYP-Project/extension/data/thumbnailText.txt"
+description_file_path = "FYP-Project/extension/data/description.txt"
+title_file_path = "FYP-Project/extension/data/title.txt"
+hate_links_file_path = "FYP-Project/extension/data/hateLinks.txt"
 bilstm_model_path = "FYP-Project/extension/models/bilstm"
 
 # function for the prediction model.
@@ -233,7 +233,7 @@ def index():
             
             if (transcript_prediction == "Hate" or comments_prediction == "Hate" or title_prediction == "Hate" or description_prediction == "Hate" or thumbnail_prediction == "Hate"):
                 with open(hate_links_file_path, "a") as file:
-                    file.write(video_id_part + "\n")
+                    file.write("\n" + video_id_part + "\n")
 
         if (transcript_prediction == "Hate" or comments_prediction == "Hate" or title_prediction == "Hate" or description_prediction == "Hate" or thumbnail_prediction == "Hate"):
             average_prediction = "Hate"

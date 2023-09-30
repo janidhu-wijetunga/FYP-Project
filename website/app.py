@@ -16,13 +16,13 @@ load_dotenv()
 api_key = os.getenv("API_KEY")
 
 # Paths to all files required.
-comments_file_path = "FYP-Project/website/comments.txt"
-transcript_file_path = "FYP-Project/website/transcript.txt"
-thumbnail_file_path = "FYP-Project/website/thumbnail.jpg"
-thumbnail_text_file_path = "FYP-Project/website/thumbnailText.txt"
-description_file_path = "FYP-Project/website/description.txt"
-title_file_path = "FYP-Project/website/title.txt"
-hate_links_file_path = "FYP-Project/website/hateLinks.txt"
+comments_file_path = "FYP-Project/website/data/comments.txt"
+transcript_file_path = "FYP-Project/website/data/transcript.txt"
+thumbnail_file_path = "FYP-Project/website/data/thumbnail.jpg"
+thumbnail_text_file_path = "FYP-Project/website/data/thumbnailText.txt"
+description_file_path = "FYP-Project/website/data/description.txt"
+title_file_path = "FYP-Project/website/data/title.txt"
+hate_links_file_path = "FYP-Project/website/data/hateLinks.txt"
 bilstm_model_path = "FYP-Project/website/models/bilstm"
 
 # function for the prediction model.
@@ -237,7 +237,7 @@ def index():
 
             if (transcript_prediction == "Hate" or comments_prediction == "Hate" or title_prediction == "Hate" or description_prediction == "Hate" or thumbnail_prediction == "Hate"):
                 with open(hate_links_file_path, "a") as file:
-                    file.write(video_id_part + "\n")
+                    file.write("\n" + video_id_part + "\n")
 
         
     return render_template('index.html', py_variable_captions=transcript_prediction, py_variable_comments=comments_prediction, link = video_link, video_id = video_id, py_variable_title = title_prediction, py_variable_description = description_prediction, py_variable_thumbnail = thumbnail_prediction)
