@@ -15,6 +15,7 @@ import numpy as np
 load_dotenv()
 api_key = os.getenv("API_KEY")
 
+# Paths to all files required.
 comments_file_path = "FYP-Project/website/comments.txt"
 transcript_file_path = "FYP-Project/website/transcript.txt"
 thumbnail_file_path = "FYP-Project/website/thumbnail.jpg"
@@ -24,6 +25,7 @@ title_file_path = "FYP-Project/website/title.txt"
 hate_links_file_path = "FYP-Project/website/hateLinks.txt"
 bilstm_model_path = "FYP-Project/website/models/bilstm"
 
+# function for the prediction model.
 def prediction(text):
     trained_model = tensorflow.keras.models.load_model(bilstm_model_path)
     predictions_trained = trained_model.predict(np.array([text]))
@@ -43,6 +45,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
+    # Defining the required variables.
     video_link = ""
     video_id = ""
     transcript_file_content = ""
@@ -65,6 +68,7 @@ def index():
         video_id_part = video_link.split('&')[0]
         video_id = video_id_part.split("v=")[1]
 
+        # Go through each line of the file to check whether link exists.
         found = False
         with open(hate_links_file_path, "r") as file:
             for line in file:
@@ -83,6 +87,7 @@ def index():
 
         else:
             print("Link Doesn't Exist")
+
 
             # Extract the video captions.
             try:
@@ -131,6 +136,7 @@ def index():
                     with open(description_file_path, 'w', encoding='utf-8') as file:
                         file.write(video_description)
                     print("Description Saved.")
+
                     description_prediction = prediction(video_description)
                     print("Hate Speech in Description:", description_prediction)
                 else:
@@ -156,6 +162,7 @@ def index():
                     print("Video title saved.")
                     with open(title_file_path, 'w', encoding='utf-8') as file:
                         file.write(video_title)
+
                     title_prediction = prediction(video_title)
                     print("Hate Speech in Title:", title_prediction)
                 else:
@@ -189,20 +196,24 @@ def index():
                 print("No comments for this video")
                 with open(comments_file_path, "w") as f:
                     f.write("No comments for this video.")
-        
+
+
             # Read transcripts from the file and assign to a variable.
             if os.path.exists(transcript_file_path):
                 with open(transcript_file_path, "r") as file:
                     transcript_file_content = file.read()
+
                     transcript_prediction = prediction(transcript_file_content)
                     print("Hate Speech in Transcript:", transcript_prediction)
             else:
                 print("No existing file.")
 
+
             # Read comments from the file and assign to a variable.
             if os.path.exists(transcript_file_path):
                 with open(comments_file_path, "r", encoding='utf-8') as file:
                     comments_file_content = file.read()
+
                     comments_prediction = prediction(comments_file_content)
                     print("Hate Speech in Comments:", comments_prediction)
             else:
@@ -217,6 +228,7 @@ def index():
                 with open(thumbnail_text_file_path, "w") as f:
                     f.write(thumbnail_text)
                     print("Thumbnail text saved.")
+                    
                     thumbnail_prediction = prediction(thumbnail_text)
                     print("Hate Speech in Thumbnail:", thumbnail_prediction)
         
