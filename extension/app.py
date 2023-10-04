@@ -23,6 +23,7 @@ thumbnail_file_path = "FYP-Project/extension/data/thumbnail.jpg"
 thumbnail_text_file_path = "FYP-Project/extension/data/thumbnailText.txt"
 description_file_path = "FYP-Project/extension/data/description.txt"
 title_file_path = "FYP-Project/extension/data/title.txt"
+combined_file_path = "FYP-Project/extension/data/combined_data.txt"
 hate_links_file_path = "FYP-Project/extension/data/hateLinks.txt"
 bilstm_model_path = "FYP-Project/extension/models/bilstm"
 
@@ -75,12 +76,7 @@ def index():
         
         if found:
             print("Link Exists")
-
-            transcript_prediction = "Hate"
-            comments_prediction = "Hate"
-            title_prediction = "Hate"
-            description_prediction = "Hate"
-            thumbnail_prediction = "Hate"
+            combined_prediction = "Hate"
 
         else:
             print("Link Doesn't Exist")
@@ -133,8 +129,6 @@ def index():
                         file.write(video_description)
                     print("Description Saved.")
 
-                    description_prediction = prediction(video_description)
-                    print("Hate Speech in Description:", description_prediction)
                 else:
                     print("Video description not available.")
                     with open(description_file_path, 'w', encoding='utf-8') as file:
@@ -159,8 +153,6 @@ def index():
                     with open(title_file_path, 'w', encoding='utf-8') as file:
                         file.write(video_title)
                     
-                    title_prediction = prediction(video_title)
-                    print("Hate Speech in Title:", title_prediction)
                 else:
                     print("Video title not available.")
                     with open(description_file_path, 'w', encoding='utf-8') as file:
@@ -199,8 +191,6 @@ def index():
                 with open(transcript_file_path, "r") as file:
                     transcript_file_content = file.read()
 
-                    transcript_prediction = prediction(transcript_file_content)
-                    print("Hate Speech in Transcript:", transcript_prediction)
             else:
                 print("No existing file.")
 
@@ -210,8 +200,6 @@ def index():
                 with open(comments_file_path, "r", encoding='utf-8') as file:
                     comments_file_content = file.read()
 
-                    comments_prediction = prediction(comments_file_content)
-                    print("Hate Speech in Comments:", comments_prediction)
             else:
                 print("No existing file.")
         
@@ -224,23 +212,29 @@ def index():
                 with open(thumbnail_text_file_path, "w") as f:
                     f.write(thumbnail_text)
                     print("Thumbnail text saved.")
-
-                    thumbnail_prediction = prediction(thumbnail_text)
-                    print("Hate Speech in Thumbnail:", thumbnail_prediction)
         
             except Exception as e:
                 print("Error:", e)
+
+            # All the extracted data entered into one file.
+            with open(combined_file_path, 'w', encoding='utf-8') as file:
+                file.write(video_title + "\n" + video_description + "\n" + thumbnail_text + "\n" + transcript_file_content + "\n" + comments_file_content)
             
-            if (transcript_prediction == "Hate" or comments_prediction == "Hate" or title_prediction == "Hate" or description_prediction == "Hate" or thumbnail_prediction == "Hate"):
+            # Read the content of the file.
+            if os.path.exists(combined_file_path):
+                with open(combined_file_path, "r", encoding='utf-8') as file:
+                    combined_file_content = file.read()
+
+                    # Send the data through the hate speech model.
+                    combined_prediction = prediction(combined_file_content)
+                    print("Hate Speech in Video:", combined_prediction)
+
+            # Add the link to the file if it contains hate speech.
+            if (combined_prediction == "Hate"):
                 with open(hate_links_file_path, "a") as file:
                     file.write("\n" + video_id_part + "\n")
 
-        if (transcript_prediction == "Hate" or comments_prediction == "Hate" or title_prediction == "Hate" or description_prediction == "Hate" or thumbnail_prediction == "Hate"):
-            average_prediction = "Hate"
-        else:
-            average_prediction = "Not Hate"
-
-    return jsonify({"value": average_prediction})
+    return jsonify({"value": combined_prediction})
     
 # To clear existing data.
 @app.route('/delete', methods=['POST'])
