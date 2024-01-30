@@ -11,6 +11,8 @@ from PIL import Image
 from flask_cors import CORS
 import tensorflow
 import numpy as np
+import pandas as pd
+import re
 
 # API key for youtube API v3.
 load_dotenv()
@@ -26,9 +28,13 @@ title_file_path = "FYP-Project/extension/data/title.txt"
 combined_file_path = "FYP-Project/extension/data/combined_data.txt"
 hate_links_file_path = "FYP-Project/extension/data/hateLinks.txt"
 bilstm_model_path = "FYP-Project/extension/models/bilstm"
+bad_words_csv = "FYP-Project/extension/models/bad-words.csv"
+bad_words_file_path = "FYP-Project/extension/data/badWords.txt"
 
 # function for the prediction model.
 def prediction(text):
+
+    # BILSTM Model.
     trained_model = tensorflow.keras.models.load_model(bilstm_model_path)
     predictions_trained = trained_model.predict(np.array([text]))
     print(*predictions_trained[0])
@@ -39,6 +45,30 @@ def prediction(text):
     else:
         print('Not Hate')
         prediction_value = "Not Hate"
+
+    # Hate words detection.
+    detected_bad_words = []
+    bad_words_df = pd.read_csv(bad_words_csv, header=None, names=["Bad Word"])
+    bad_words_set = set(bad_words_df["Bad Word"])
+
+    with open(bad_words_file_path, "w") as output:
+        for line in text.splitlines():
+            line = line.strip()  # Remove leading/trailing whitespace
+            found_bad_words = []
+
+            for bad_word in bad_words_set:
+                pattern = r'\b' + re.escape(bad_word.lower()) + r'\b'
+                if re.search(pattern, line.lower()):
+                    found_bad_words.append(bad_word)
+
+            if found_bad_words:
+                detected_bad_words.append((line, found_bad_words))
+                output.write(f"{', '.join(found_bad_words)}\n")
+
+    if os.path.getsize(bad_words_file_path) > 0:
+        print("Detected bad words")
+    else:
+        print("No bad words detected")
 
     return prediction_value
 

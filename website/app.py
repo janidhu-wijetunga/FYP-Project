@@ -10,6 +10,8 @@ import pytesseract
 from PIL import Image
 import tensorflow
 import numpy as np
+import pandas as pd
+import re
 
 # API key for youtube API v3.
 load_dotenv()
@@ -24,9 +26,13 @@ description_file_path = "FYP-Project/website/data/description.txt"
 title_file_path = "FYP-Project/website/data/title.txt"
 hate_links_file_path = "FYP-Project/website/data/hateLinks.txt"
 bilstm_model_path = "FYP-Project/website/models/bilstm"
+bad_words_csv = "FYP-Project/website/models/bad-words.csv"
+bad_words_file_path = "FYP-Project/website/data/badWords.txt"
 
 # function for the prediction model.
 def prediction(text):
+
+    # BILSTM Model.
     trained_model = tensorflow.keras.models.load_model(bilstm_model_path)
     predictions_trained = trained_model.predict(np.array([text]))
     print(*predictions_trained[0])
@@ -37,8 +43,33 @@ def prediction(text):
     else:
         print('Not Hate')
         prediction_value = "Not Hate"
+    
+    # Hate words detection.
+    detected_bad_words = []
+    bad_words_df = pd.read_csv(bad_words_csv, header=None, names=["Bad Word"])
+    bad_words_set = set(bad_words_df["Bad Word"])
 
+    with open(bad_words_file_path, "w") as output:
+        for line in text.splitlines():
+            line = line.strip()  # Remove leading/trailing whitespace
+            found_bad_words = []
+
+            for bad_word in bad_words_set:
+                pattern = r'\b' + re.escape(bad_word.lower()) + r'\b'
+                if re.search(pattern, line.lower()):
+                    found_bad_words.append(bad_word)
+
+            if found_bad_words:
+                detected_bad_words.append((line, found_bad_words))
+                output.write(f"{', '.join(found_bad_words)}\n")
+
+    if os.path.getsize(bad_words_file_path) > 0:
+        print("Detected bad words")
+    else:
+        print("No bad words detected")
+    
     return prediction_value
+
 
 # Define flask back end.
 app = Flask(__name__)
@@ -123,31 +154,6 @@ def index():
                 print("Error:", e)
 
 
-            # Extract YouTube video description.
-            try:
-                youtube = build('youtube', 'v3', developerKey=api_key)
-                response = youtube.videos().list(
-                    part="snippet",
-                    id=video_id
-                ).execute()
-
-                if "items" in response and len(response["items"]) > 0:
-                    video_description = response["items"][0]["snippet"]["description"]
-                    with open(description_file_path, 'w', encoding='utf-8') as file:
-                        file.write(video_description)
-                    print("Description Saved.")
-
-                    description_prediction = prediction(video_description)
-                    print("Hate Speech in Description:", description_prediction)
-                else:
-                    print("Video description not available.")
-                    with open(description_file_path, 'w', encoding='utf-8') as file:
-                        file.write("Video description not available.")
-
-            except Exception as e:
-                print("Error:", e)
-
-
             # Extract YouTube video title.
             try:
                 youtube = build("youtube", "v3", developerKey=api_key)
@@ -170,6 +176,31 @@ def index():
                     with open(description_file_path, 'w', encoding='utf-8') as file:
                         file.write("Video title not available.")
             
+            except Exception as e:
+                print("Error:", e)
+
+
+            # Extract YouTube video description.
+            try:
+                youtube = build('youtube', 'v3', developerKey=api_key)
+                response = youtube.videos().list(
+                    part="snippet",
+                    id=video_id
+                ).execute()
+
+                if "items" in response and len(response["items"]) > 0:
+                    video_description = response["items"][0]["snippet"]["description"]
+                    with open(description_file_path, 'w', encoding='utf-8') as file:
+                        file.write(video_description)
+                    print("Description Saved.")
+
+                    description_prediction = prediction(video_description)
+                    print("Hate Speech in Description:", description_prediction)
+                else:
+                    print("Video description not available.")
+                    with open(description_file_path, 'w', encoding='utf-8') as file:
+                        file.write("Video description not available.")
+
             except Exception as e:
                 print("Error:", e)
 
@@ -253,6 +284,7 @@ def delete_file():
         os.remove(thumbnail_text_file_path)
         os.remove(description_file_path)
         os.remove(title_file_path)
+        os.remove(bad_words_file_path)
         output = "Data cleared successfully."
     else:
         output = "Data not found."
