@@ -7,3 +7,5 @@ pytesseract
 flask-cors
 tensorflow
 numpy
+torch
+transformers

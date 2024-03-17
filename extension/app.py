@@ -13,6 +13,9 @@ import tensorflow
 import numpy as np
 import pandas as pd
 import re
+from transformers import BertTokenizer, BertForSequenceClassification
+import torch
+from torch.utils.data import DataLoader, TensorDataset
 
 # API key for youtube API v3.
 load_dotenv()
@@ -30,6 +33,8 @@ hate_links_file_path = "FYP-Project/extension/data/hateLinks.txt"
 bilstm_model_path = "FYP-Project/extension/models/bilstm"
 bad_words_csv = "FYP-Project/extension/models/bad-words.csv"
 bad_words_file_path = "FYP-Project/extension/data/badWords.txt"
+bert_model_path = "FYP-Project/extension/models/bert"
+
 
 # function for the prediction model.
 def prediction(text):
@@ -40,11 +45,11 @@ def prediction(text):
     print(*predictions_trained[0])
 
     if predictions_trained[0] > 0:
-        print('Hate')
-        prediction_value = "Hate"
+        print('BILSTM Prediction: Hate')
+        bilstm_prediction_value = "Hate"
     else:
-        print('Not Hate')
-        prediction_value = "Not Hate"
+        print('BILSTM Prediction: Not Hate')
+        bilstm_prediction_value = "Not Hate"
 
     # Hate words detection.
     detected_bad_words = []
@@ -66,11 +71,71 @@ def prediction(text):
                 output.write(f"{', '.join(found_bad_words)}\n")
 
     if os.path.getsize(bad_words_file_path) > 0:
-        print("Detected bad words")
+        print("Words Prediction: Detected bad words")
+        words_prediction_value = "Hate"
     else:
-        print("No bad words detected")
+        print("Words Prediction: No bad words detected")
+        words_prediction_value = "Not Hate"
 
-    return prediction_value
+
+    # BERT Model.
+    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+
+    model_name = bert_model_path
+    Bert_Tokenizer = BertTokenizer.from_pretrained(model_name)
+    Bert_Model = BertForSequenceClassification.from_pretrained(
+        model_name).to(device)
+
+    count = 0
+    for line in text.splitlines():
+
+        user_input = [line]
+ 
+        user_encodings = Bert_Tokenizer(
+            user_input, truncation=True, padding=True, return_tensors="pt")
+ 
+        user_dataset = TensorDataset(
+            user_encodings['input_ids'], user_encodings['attention_mask'])
+ 
+        user_loader = DataLoader(user_dataset, batch_size=1, shuffle=False)
+ 
+        Bert_Model.eval()
+        with torch.no_grad():
+            for batch in user_loader:
+                input_ids, attention_mask = [t.to(device) for t in batch]
+                outputs = Bert_Model(input_ids, attention_mask=attention_mask)
+                logits = outputs.logits
+                predictions = torch.sigmoid(logits)
+ 
+        predicted_labels = (predictions.cpu().numpy() > 0.5).astype(int)
+        labels_list = ['toxic', 'severe_toxic', 'obscene',
+                       'threat', 'insult', 'identity_hate']
+        predicted_labels_names = [labels_list[i] for i in range(len(labels_list)) if predicted_labels[0][i] == 1]
+
+        if predicted_labels_names != []:
+            count = count + 1
+
+    if count == 0:
+        print("BERT Prediction: Not Hate")
+        bert_prediction_value = "Not Hate"
+    else:
+        print("BERT Prediction: Hate")
+        bert_prediction_value = "Hate"
+
+
+    # Ensemble Prediction
+    ensemble_hate_count = sum(1 for v in [ bilstm_prediction_value, words_prediction_value, bert_prediction_value ] if v == "Hate")
+    threshold = 2
+
+    if ensemble_hate_count >= threshold:
+        print("Ensemble Prediction: Hate")
+        ensemble_prediction = "Hate"
+    else:
+        print("Ensemble Prediction: Not Hate")
+        ensemble_prediction = "No Hate"
+
+    return ensemble_prediction
+
 
 # Define flask back end.
 app = Flask(__name__)
