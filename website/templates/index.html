@@ -28,27 +28,27 @@
             <button type="submit" id="clearData">Clear Data</button> {{ delete_message }}
         </form>
         <div class="result">
-            <p class="result-title">YouTube Link: {{ link }}</p>
+            <p class="result-title">YouTube Link: <a href>{{ link }}</a></p>
         </div>
         <div class="result">
             <p class="result-title">Hate speech in title:</p>
-            <p class="result-value">{{ py_variable_title }}</p>
+            <p class="result-value"><b>{{ py_variable_title }}</b></p>
         </div>
         <div class="result">
             <p class="result-title">Hate speech in description:</p>
-            <p class="result-value">{{ py_variable_description }}</p>
+            <p class="result-value"><b>{{ py_variable_description }}</b></p>
         </div>
         <div class="result">
             <p class="result-title">Hate speech in captions:</p>
-            <p class="result-value">{{ py_variable_captions }}</p>
+            <p class="result-value"><b>{{ py_variable_captions }}</b></p>
         </div>
         <div class="result">
             <p class="result-title">Hate speech in comments:</p>
-            <p class="result-value">{{ py_variable_comments }}</p>
+            <p class="result-value"><b>{{ py_variable_comments }}</b></p>
         </div>
         <div class="result">
             <p class="result-title">Hate speech in thumbnail:</p>
-            <p class="result-value">{{ py_variable_thumbnail }}</p>
+            <p class="result-value"><b>{{ py_variable_thumbnail }}</b></p>
         </div>
     </div>
     <script src="static/scripts.js"></script>
