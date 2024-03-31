@@ -136,6 +136,40 @@ def prediction(text):
     return ensemble_prediction
 
 
+# Print Table.
+def print_table(title, description, transcript, comments, thumbnail):
+
+    data = [
+        ["Category", "Hate Level"],
+        ["Title", title],
+        ["Description", description],
+        ["Transcript", transcript],
+        ["Comments", comments],
+        ["Thumbnail", thumbnail]
+    ]
+
+    # Calculate the maximum width for each column
+    col_widths = [max(len(str(item)) for item in col) for col in zip(*data)]
+    
+    # Print table header
+    print("┌" + "─" * (sum(col_widths) + len(col_widths) * 3 - 1) + "┐")
+    for i, item in enumerate(data[0]):
+        print("│ {:^{width}} ".format(item, width=col_widths[i]), end="")
+    print("│")
+    
+    # Print separator
+    print("├" + "─" * (sum(col_widths) + len(col_widths) * 3 - 1) + "┤")
+    
+    # Print table rows
+    for row in data[1:]:
+        for i, item in enumerate(row):
+            print("│ {:^{width}} ".format(item, width=col_widths[i]), end="")
+        print("│")
+        
+    # Print bottom border
+    print("└" + "─" * (sum(col_widths) + len(col_widths) * 3 - 1) + "┘")
+
+
 # Define flask back end.
 app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
@@ -180,6 +214,9 @@ def index():
             title_prediction = "Hate"
             description_prediction = "Hate"
             thumbnail_prediction = "Hate"
+
+            print_table(title_prediction, description_prediction, transcript_prediction, comments_prediction, thumbnail_prediction)
+
 
         else:
             print("Link Doesn't Exist")
@@ -334,6 +371,8 @@ def index():
             if (transcript_prediction == "Hate" or comments_prediction == "Hate" or title_prediction == "Hate" or description_prediction == "Hate" or thumbnail_prediction == "Hate"):
                 with open(hate_links_file_path, "a") as file:
                     file.write("\n" + video_id_part + "\n")
+            
+            print_table(title_prediction, description_prediction, transcript_prediction, comments_prediction, thumbnail_prediction)
 
         
     return render_template('index.html', py_variable_captions=transcript_prediction, py_variable_comments=comments_prediction, link = video_link, video_id = video_id, py_variable_title = title_prediction, py_variable_description = description_prediction, py_variable_thumbnail = thumbnail_prediction)
