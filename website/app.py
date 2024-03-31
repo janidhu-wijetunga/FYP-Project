@@ -131,7 +131,7 @@ def prediction(text):
         ensemble_prediction = "Hate"
     else:
         print("Ensemble Prediction: Not Hate")
-        ensemble_prediction = "No Hate"
+        ensemble_prediction = "Not Hate"
 
     return ensemble_prediction
 
